@@ -1,0 +1,14 @@
+安装
+sudo apt update
+sudo apt install minicom
+
+列出usb
+ls /dev/tty*
+
+配置
+sudo minicom -s
+/dev/ttyACM0
+Save setup as dfl
+
+yunxing 
+minicom

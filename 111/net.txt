@@ -1,0 +1,50 @@
+Bashrc 代理（命令行全局代理）：
+sudo gedit ~/.bashrc
+export http_proxy="http://127.0.0.1:7890"
+export https_proxy="http://127.0.0.1:7890"
+export ftp_proxy="ftp://127.0.0.1:7890"
+export no_proxy="localhost,127.0.0.1"
+
+check:
+echo $http_proxy	http://127.0.0.1:7890
+curl http://google.com
+
+
+APT 代理：
+sudo gedit /etc/apt/apt.conf.d/95proxies
+Acquire::http::Proxy "http://127.0.0.1:7890";
+Acquire::https::Proxy "http://127.0.0.1:7890";
+
+check:
+sudo apt update
+
+
+Docker 代理：
+sudo gedit /etc/systemd/system/docker.service.d/proxy.conf
+[Service]
+Environment="HTTP_PROXY=http://127.0.0.1:7890"
+Environment="HTTPS_PROXY=http://127.0.0.1:7890"
+Environment="NO_PROXY=localhost,127.0.0.1"
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+sudo usermod -aG docker $USER
+docker run  hello-world
+
+
+check:
+sudo systemctl show --property=Environment docker    包含 HTTP_PROXY 和 HTTPS_PROXY
+
+Git 代理：
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+
+check:
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+Wget 代理：
+sudo gedit ~/.wgetrc
+http_proxy = http://127.0.0.1:7890
+https_proxy = http://127.0.0.1:7890
+

@@ -1,0 +1,29 @@
+# ROS2 构建
+build/
+install/
+log/
+
+# ROS bag
+*.db3
+
+# Python
+__pycache__/
+*.pyc
+
+# VSCode
+.vscode/
+
+# 系统
+*.log
+
+# micro-ROS / firmware 构建产物
+firmware/**/build/
+firmware/**/install/
+
+# ROS2 源码（绝对不要进 Git）
+firmware/**/ros2/
+firmware/**/eProsima/
+
+# 第三方库
+*.so
+*.a

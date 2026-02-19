@@ -1,0 +1,4 @@
+sudo apt install ros-humble-cartographer
+sudo apt install ros-humble-cartographer-ros
+
+sudo apt install ros-humble-nav2-*

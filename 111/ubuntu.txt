@@ -1,0 +1,7 @@
+查看usb设备：
+dmesg | grep tty
+ls /dev/ttyUSB*
+ls /dev/ttyACM*
+lsusb
+
+

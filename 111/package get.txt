@@ -1,0 +1,98 @@
+ros2:(未验证)
+# 1. 更新
+sudo apt update
+# 2.安装必要依赖
+sudo apt install curl gnupg2 lsb-release vim -y 
+# 3.设置语言环境
+sudo apt update && sudo apt install locales
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+locale  # 验证设置
+# 4.启用Ubuntu Universe存储库
+sudo apt install software-properties-common
+sudo add-apt-repository universe
+# 5. 添加源
+sudo apt update && sudo apt install curl gnupg lsb-release
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+# 6.将存储库添加到源列表
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+# 7.更新
+sudo apt update && sudo apt upgrade   
+# 8 安装ros2
+sudo apt install ros-humble-desktop
+# 9.安装额外依赖
+sudo apt update && sudo apt install -y \
+  python3-flake8-docstrings \
+  python3-pip \
+  python3-pytest-cov \
+  ros-dev-tools
+  python3-flake8-blind-except \
+  python3-flake8-builtins \
+  python3-flake8-class-newline \
+  python3-flake8-comprehensions \
+  python3-flake8-deprecated \
+  python3-flake8-import-order \
+  python3-flake8-quotes \
+  python3-pytest-repeat \
+  python3-pytest-rerunfailures
+# 10. 刷新环境变量
+source /opt/ros/humble/setup.bash
+echo " source /opt/ros/humble/setup.bash" >> ~/.bashrc
+# 11.初始化
+sudo rosdep init
+rosdep update
+# 12. # 测试是否安装成功
+ros2 run turtlesim turtlesim_node
+# 键盘控制,新建一个终端启用键盘控制
+ros2 run turtlesim turtle_teleop_key 
+
+
+serial:
+git clone https://github.com/ZhaoXiangBox/serial
+colcon build --packages-select serial
+
+
+
+leida:
+1安装sdk:
+sudo gedit ~/.bashrc
+export LIDAR_TYPE=x3
+cd到YDLidar-SDK-master:
+安装指令：
+mkdir build
+cd build
+cmake ..
+make -j4
+sudo make install
+2搞定功能包
+移动ydlidar_ros2_driver-master到src
+colcon build --packages-select ydlidar_ros2_driver --symlink-install
+echo "source ~/ws_ros2/install/setup.bash --extend" >> ~/.bashrc
+cd /home/zrc/ws_ros2/src/ydlidar_ros2_driver/startup
+sudo chmod 777 initenv.sh
+sudo bash initenv.sh
+ll /dev/ydlidar
+ttyusbo check
+#x3/x3pro雷达
+ros2 launch ydlidar_ros2_driver ydlidar_launch.py
+ros2 launch ydlidar_ros2_driver ydlidar_launch_view.py
+ros2 topic echo /scan
+
+cartographer:
+依赖：
+sudo apt update
+sudo apt install -y python3-wstool python3-rosdep ninja-build stow
+克隆代码：
+git clone https://github.com/ros2/cartographer.git -b ros2
+git clone https://github.com/ros2/cartographer_ros.git -b ros2
+
+依赖：
+rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
+rosdep install --from-paths src --ignore-src -r -y（备用 安装依赖）
+
+build:
+colcon build --packages-up-to cartographer_ros
+check:
+source install/setup.bash 
+ros2 pkg list | grep cartographer

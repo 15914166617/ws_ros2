@@ -1,0 +1,61 @@
+cd ~/ros2_ws/src
+ros2 pkg create --build-type ament_cmake my_robot_msgs
+mkdir -p my_robot_msgs/msg
+float32 speed
+float32 angle
+
+find_package(rosidl_default_generators REQUIRED)
+find_package(std_msgs REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/MyMsg.msg"
+  DEPENDENCIES std_msgs
+)
+
+<member_of_group>rosidl_interface_packages</member_of_group>
+
+
+cd ~/ros2_ws
+colcon build --packages-select my_robot_msgs
+source install/setup.bash
+# 创建 micro-ROS 固件工程
+ros2 run micro_ros_setup create_firmware_ws.sh freertos esp32
+(
+git clone -b humble https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
+git clone -b humble https://github.com/micro-ROS/micro_ros_setup.git
+git clone -b humble https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
+
+
+sudo apt update
+sudo apt install python3-colcon-common-extensions python3-pip python3-rosdep python3-vcstool
+sudo rosdep init
+rosdep update
+colcon build --packages-select micro_ros_setup
+source install/setup.bash
+allow是WS實施sssss水水水sss jj解決d是是的d的d 
+rm -rf ~/ws_ros2/firmware
+ros2 run micro_ros_setup create_firmware_ws.sh freertos esp32
+ros2 run micro_ros_setup create_firmware_ws.sh freertos esp32
+
+ssssssddddddd顶顶顶广告歌dddd 
+sudo apt update
+sudo apt upgrade -y
+sudo apt --fix-broken install
+
+sudo apt install -y python3-venv python3-pip
+or
+sudo apt install -y --allow-change-held-packages python3-venv
+or 
+sudo apt remove python3-venv
+sudo apt install python3-venv
+cd ~/ws_ros2
+rosdep install --from-paths src --ignore-src -y
+
+
+)
+
+cd firmware
+# 生成 C 语言消息头文件
+ros2 run micro_ros_setup build_firmware.sh
+
+

@@ -1,0 +1,29 @@
+colcon build --packages-select example_t1 
+
+colcon build --packages-up-to --packages-select example_topic_rclcpp 
+colcon build  --packages-select example_topic_rclcpp 
+
+colcon build --packages-up-to cartographer_ros
+
+colcon build --packages-select micro_ros_agent
+
+sudo apt install ros-humble-micro-ros-msgs
+
+colcon build --packages-select kaiaai
+colcon build --packages-select  makerspet_mini
+colcon build --packages-select kaiaai_teleop
+colcon build --packages-select  kaiaai_bringup
+ros2 run kaiaai_teleop teleop_keyboard
+
+colcon build --packages-select makerspet_loki
+
+
+ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -v6
+
+
+sudo mkdir -p /etc/ros/rosdep/sources.list.d/
+wget https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/sources.list.d/20-default.list
+sudo cp 20-default.list /etc/ros/rosdep/sources.list.d/
+sudo rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro=${humble} -y
+

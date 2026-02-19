@@ -1,0 +1,15 @@
+nano ~/桌面/ClashForWindows.desktop
+
+[Desktop Entry]
+Version=1.0
+Name=ClashForWindows
+Comment=Clash for Windows on Ubuntu
+Exec=/home/zrc/公共的/ClashForWindows/cfw
+Icon=/home/zrc/公共的/ClashForWindows/clash.png
+Terminal=false
+Type=Application
+Categories=Utility;
+
+chmod +x ~/桌面/ClashForWindows.desktop
+gio set ~/桌面/ClashForWindows.desktop metadata::trusted true
+nautilus -q

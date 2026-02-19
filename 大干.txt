@@ -1,0 +1,57 @@
+
+ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888
+ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888
+
+ros2 node list
+
+编译要在工作空间下进行
+colcon build --packages-select kaiaai_bringup
+colcon build --packages-select makerspet_loki
+colcon build --packages-select my_text1
+
+ros2 launch kaiaai_bringup physical.launch.py  robot_model:=makerspet_loki
+
+
+ros2 launch kaiaai_bringup cartographer.launch.py use_sim_time:=true  robot_model:=makerspet_loki
+ros2 launch kaiaai_bringup cartographer.launch.py use_sim_time:=true  robot_model:=makerspet_loki
+ros2 run kaiaai_teleop teleop_keyboard robot_model:=makerspet_loki
+
+ros2 run nav2_map_server map_saver_cli -f ~/map --ros-args -p save_map_timeout:=60.0
+
+ros2 launch kaiaai_bringup navigation.launch.py robot_model:=makerspet_loki map:=$HOME/map.yaml
+
+ros2 launch kaiaai_bringup b1.launch.py robot_model:=makerspet_loki map:=$HOME/map.yaml
+
+
+fcitx5-config-qt
+
+odom:/home/zrc/文档/PlatformIO/Projects/fishbot_motion_control_microros_3
+
+
+lds！！！！！:
+arduino_lds_kia:/home/zrc/文档/PlatformIO/Projects/LDS_base
+my_lds-select:/home/zrc/文档/PlatformIO/Projects/LDS_only
+read:
+1.阅读LDS_base中与雷达有关的主干，理清逻辑：关于雷达启动，数据获取，数据上传等关系
+    main函数关键部分：
+    579:    setupLIDAR
+            ：这里会配置基础参数
+            ：这里会绑定回调函数：  // 激光雷达数据包回调函数，触发时自动装载雷达数据到遥测数据包！！！
+                                    将主动调用spinTelem上发数据，这个上发另一个而调用地方在loop主循环
+                                void lidar_packet_callback(uint8_t * packet, uint16_t packet_length, bool scan_completed) 
+                                函数的回调调用出发，目前能力怀疑是在lidar_loop调用时被触发的
+    630:    startLIDAR
+    429:    lidar->loop
+            /home/zrc/文档/PlatformIO/Projects/LDS_base/.pio/libdeps/featheresp32/LDS/src/LDS_YDLIDAR_X4.cpp
+            409:void LDS_YDLIDAR_X4::loop() 
+    423:    lidar->stop
+    493:    resetTelemMsg
+    285:    float rpm = lidar->getCurrentScanFreqHz();
+    304:    void publishTelem(unsigned long step_time_us) 
+2.摘取这些部分，写成自己的，后续好移植附加到odom，组合成完整的功能。
+3.关于2,接口部分可能是难点
+
+next1：目前他使用了#include <kaiaai_msgs/msg/kaiaai_telemetry2.h> // 包含自定义消息类型
+        而我不能用，我准备用官方的，所以需要吧这个接口，用官方的实现
+        然后，摘取雷达相关功能合并到odom
+        期间，下位机器雷达使用和上位机雷达解析都可以参考他的
