@@ -5,7 +5,7 @@
 # ros2 launch kaiaai_bringup b4.launch.py   robot_model:=makerspet_loki   slam:=True
 # 基础导航功能，基于吧b1,但是修改了下位机参数接受节点
 
-# 基于b1改变了下位机数据的接受方式为官方里程计转tf的节点而不是自写代码
+# 基于b1改变了下位机数据的接受方式为官方里程计转tf的节点而不是自写代码d
 import os
 
 from launch import LaunchDescription
